@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet var catURL: UILabel!
     @IBOutlet var catImage: UIImageView!
     
     struct Cat: Decodable {
@@ -49,11 +48,8 @@ class ViewController: UIViewController {
                 }
                 
             }.resume()
-            
-//            catImage.image = UIImage(named: "catImage")
-            catURL.text = decoded[0].url
         } catch {
-            catURL.text = "error"
+            print("Error in fetching data or decoding the data: \(error)")
         }
     }
 
