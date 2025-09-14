@@ -8,7 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var catURL: UILabel!
+    @IBOutlet var catURL: UILabel!
+    @IBOutlet var catImage: UIImageView!
     
     struct Cat: Decodable {
         let id: String
@@ -33,6 +34,23 @@ class ViewController: UIViewController {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoded = try JSONDecoder().decode([Cat].self, from: data)
+            
+            guard let decodedCatURL = URL(string: decoded[0].url) else {
+                print("Invalid Cat URL")
+                return
+            }
+            URLSession.shared.dataTask(with: decodedCatURL) { data, _, error in
+                guard let data = data,
+                      let image = UIImage(data: data),
+                      error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    self.catImage.image = image
+                }
+                
+            }.resume()
+            
+//            catImage.image = UIImage(named: "catImage")
             catURL.text = decoded[0].url
         } catch {
             catURL.text = "error"
