@@ -33,9 +33,9 @@ class ViewController: UIViewController {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoded = try JSONDecoder().decode([Cat].self, from: data)
-            print(decoded[0].url)
+            catURL.text = decoded[0].url
         } catch {
-            print("error")
+            catURL.text = "error"
         }
     }
 
