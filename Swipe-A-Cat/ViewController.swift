@@ -24,6 +24,10 @@ class ViewController: UIViewController {
         }
     }
     
+    func divide(_ x: Int, _ y: Int) -> Int {
+        y != 0 ? x / y : 0
+    }
+    
     private func fetchData() async {
         guard let url = URL(string: "https://api.thecatapi.com/v1/images/search") else {
             print("Invalid URL")
